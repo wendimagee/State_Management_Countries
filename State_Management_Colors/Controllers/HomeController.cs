@@ -11,16 +11,49 @@ namespace State_Management_Colors.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        public List<Country> Countries { get; set; }
+        public HomeController()
         {
-            _logger = logger;
+            Countries = new List<Country>();
+            List<string> langs = new List<string>();
+            langs.Add("English");
+            langs.Add("French");
+            List<string> colors = new List<string>();
+            colors.Add("Red");
+            colors.Add("Black");
+            Country c = new Country("Stankonia", langs, "Valvete amici!", colors, "Dopest country on Earth");
+
+            List<string> langs2 = new List<string>();
+            langs.Add("German");
+            langs.Add("French");
+            langs.Add("English");
+            List<string> colors2 = new List<string>();
+            colors.Add("Blue");
+            colors.Add("Gold");
+            Country c2 = new Country("France", langs2, "Bonjur!", colors2, "They do French stuff here");
+
+            Countries.Add(c2);
+            Countries.Add(c);
+
         }
 
         public IActionResult Index()
         {
-            return View();
+            return View(Countries);
+        }
+        public IActionResult Details(string countryName)
+        {
+            //This action will search our list by name for the selected country
+            Country selected = null;
+            for(int i = 0; i<Countries.Count; i++)
+            {
+                Country c = Countries[i];
+                if(c.Name == countryName)
+                {
+                    selected = c;
+                }
+            }
+            return View(selected);
         }
 
         public IActionResult Privacy()
